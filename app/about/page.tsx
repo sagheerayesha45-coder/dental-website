@@ -11,7 +11,7 @@ import {
   GraduationCap, Quote, Play, X
 } from 'lucide-react';
 
-// ✅ TypeScript Interfaces
+// Interfaces
 interface Qualification {
   degree: string;
   university: string;
@@ -20,7 +20,7 @@ interface Qualification {
   description: string;
 }
 
-interface Award {
+interface AwardItem {
   title: string;
   year: string;
   organization: string;
@@ -50,7 +50,7 @@ interface CounterProps {
   suffix?: string;
 }
 
-// Doctor's qualifications data
+// Data
 const qualifications: Qualification[] = [
   { 
     degree: 'Doctor of Dental Medicine (DMD)',
@@ -82,8 +82,7 @@ const qualifications: Qualification[] = [
   }
 ];
 
-// Awards and recognition
-const awards: Award[] = [
+const awards: AwardItem[] = [
   { 
     title: 'Best Cosmetic Dentist',
     year: '2023',
@@ -114,7 +113,6 @@ const awards: Award[] = [
   }
 ];
 
-// Professional memberships
 const memberships: string[] = [
   'American Dental Association (ADA)',
   'Academy of General Dentistry (AGD)',
@@ -124,13 +122,12 @@ const memberships: string[] = [
   'World Federation of Orthodontists (WFO)'
 ];
 
-// Patient testimonials
 const testimonials: Testimonial[] = [
   {
     id: 1,
     name: 'Sarah Johnson',
     role: 'Regular Patient',
-    text: 'Dr. Ayesha transformed my smile! Her expertise and gentle approach made me feel completely at ease. I have never been more confident.',
+    text: 'Dr. Ayesha transformed my smile! Her expertise and gentle approach made me feel completely at ease.',
     rating: 5,
     date: '2024-01-15'
   },
@@ -138,7 +135,7 @@ const testimonials: Testimonial[] = [
     id: 2,
     name: 'Michael Chen',
     role: 'Implant Patient',
-    text: 'The best dental experience I have ever had. Dr. Ayesha is truly an artist. My implants look completely natural.',
+    text: 'The best dental experience I have ever had. Dr. Ayesha is truly an artist.',
     rating: 5,
     date: '2023-12-10'
   },
@@ -146,19 +143,16 @@ const testimonials: Testimonial[] = [
     id: 3,
     name: 'Emily Rodriguez',
     role: 'Cosmetic Patient',
-    text: 'I came for veneers and left with a million-dollar smile! The entire team is professional and caring.',
+    text: 'I came for veneers and left with a million-dollar smile!',
     rating: 5,
     date: '2024-02-01'
   }
 ];
 
-// ✅ Fixed Counter Component with TypeScript
+// Counter Component
 const Counter: React.FC<CounterProps> = ({ target, duration = 2000, suffix = '' }) => {
   const [count, setCount] = useState<number>(0);
-  const { ref, inView } = useInView({ 
-    triggerOnce: true, 
-    threshold: 0.1 
-  });
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
 
   useEffect(() => {
     if (inView) {
@@ -177,33 +171,12 @@ const Counter: React.FC<CounterProps> = ({ target, duration = 2000, suffix = '' 
     }
   }, [inView, target, duration]);
 
-  return (
-    <span ref={ref}>
-      {count}{suffix}
-    </span>
-  );
+  return <span ref={ref}>{count}{suffix}</span>;
 };
 
 export default function AboutPage() {
   const [playingVideo, setPlayingVideo] = useState<boolean>(false);
 
-  // Animation variants
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0 }
-  };
-
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  // Stats data
   const stats: StatItem[] = [
     { icon: <Smile className="h-8 w-8" />, value: 5000, label: 'Happy Patients', suffix: '+' },
     { icon: <Calendar className="h-8 w-8" />, value: 15, label: 'Years Experience', suffix: '+' },
@@ -306,11 +279,11 @@ export default function AboutPage() {
           </motion.div>
         </section>
 
-        {/* Doctor Introduction Section */}
+        {/* Doctor Introduction Section - FIXED */}
         <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
-              {/* Doctor Image */}
+              {/* Doctor Image - ✅ IMAGE STAYS VISIBLE */}
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -320,14 +293,10 @@ export default function AboutPage() {
                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-2xl blur-xl opacity-70 group-hover:opacity-100 transition duration-500"></div>
                 <div className="relative bg-white rounded-2xl overflow-hidden">
                   <div className="relative">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src="/images/doctor.jpg"
-                      alt="Dr. Ayesha"
+                      src="/images/Dr.Ayesha.png"
+                      alt="Dr. Ayesha Khan"
                       className="w-full h-auto rounded-2xl transform group-hover:scale-105 transition-transform duration-500"
-                      onError={(e) => {
-                        e.currentTarget.src = 'https://via.placeholder.com/600x400?text=Dr.+Ayesha';
-                      }}
                     />
                     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
                       <div className="text-white">
@@ -344,53 +313,52 @@ export default function AboutPage() {
                   </div>
                 </div>
                 
-                {/* Social Icons with Font Awesome */}
+                {/* ✅ FIXED SOCIAL ICONS - No href="#", No page refresh */}
                 <div className="absolute -right-4 top-1/2 transform -translate-y-1/2 flex flex-col gap-3">
-                  <motion.a
-                    href="#"
+                  <motion.button
                     whileHover={{ scale: 1.1, x: -5 }}
-                    className="bg-[#1877F2] p-3 rounded-full shadow-lg hover:shadow-xl transition-all"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => window.open('https://facebook.com', '_blank')}
+                    className="bg-[#1877F2] p-3 rounded-full shadow-lg hover:shadow-xl transition-all cursor-pointer"
                   >
                     <i className="fab fa-facebook-f text-white text-xl"></i>
-                  </motion.a>
-                  <motion.a
-                    href="#"
+                  </motion.button>
+                  
+                  <motion.button
                     whileHover={{ scale: 1.1, x: -5 }}
-                    className="bg-gradient-to-tr from-[#E4405F] to-[#F56040] p-3 rounded-full shadow-lg hover:shadow-xl transition-all"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => window.open('https://instagram.com', '_blank')}
+                    className="bg-gradient-to-tr from-[#E4405F] to-[#F56040] p-3 rounded-full shadow-lg hover:shadow-xl transition-all cursor-pointer"
                   >
                     <i className="fab fa-instagram text-white text-xl"></i>
-                  </motion.a>
-                  <motion.a
-                    href="#"
+                  </motion.button>
+                  
+                  <motion.button
                     whileHover={{ scale: 1.1, x: -5 }}
-                    className="bg-[#1DA1F2] p-3 rounded-full shadow-lg hover:shadow-xl transition-all"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => window.open('https://twitter.com', '_blank')}
+                    className="bg-[#1DA1F2] p-3 rounded-full shadow-lg hover:shadow-xl transition-all cursor-pointer"
                   >
                     <i className="fab fa-twitter text-white text-xl"></i>
-                  </motion.a>
-                  <motion.a
-                    href="#"
+                  </motion.button>
+                  
+                  <motion.button
                     whileHover={{ scale: 1.1, x: -5 }}
-                    className="bg-[#0077B5] p-3 rounded-full shadow-lg hover:shadow-xl transition-all"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => window.open('https://linkedin.com', '_blank')}
+                    className="bg-[#0077B5] p-3 rounded-full shadow-lg hover:shadow-xl transition-all cursor-pointer"
                   >
                     <i className="fab fa-linkedin-in text-white text-xl"></i>
-                  </motion.a>
-                  <motion.a
-                    href="#"
+                  </motion.button>
+                  
+                  <motion.button
                     whileHover={{ scale: 1.1, x: -5 }}
-                    className="bg-[#FF0000] p-3 rounded-full shadow-lg hover:shadow-xl transition-all"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => window.open('https://youtube.com', '_blank')}
+                    className="bg-[#FF0000] p-3 rounded-full shadow-lg hover:shadow-xl transition-all cursor-pointer"
                   >
                     <i className="fab fa-youtube text-white text-xl"></i>
-                  </motion.a>
+                  </motion.button>
                 </div>
               </motion.div>
 
@@ -445,25 +413,25 @@ export default function AboutPage() {
                   ))}
                 </div>
                 
-                {/* Social Media Row */}
+                {/* Bottom Social Row - FIXED */}
                 <div className="pt-4">
                   <p className="text-sm text-gray-500 mb-3">Follow Dr. Ayesha on social media:</p>
                   <div className="flex gap-3">
-                    <a href="#" className="w-10 h-10 bg-[#1877F2] rounded-full flex items-center justify-center hover:scale-110 transition-transform">
+                    <button onClick={() => window.open('https://facebook.com', '_blank')} className="w-10 h-10 bg-[#1877F2] rounded-full flex items-center justify-center hover:scale-110 transition-transform">
                       <i className="fab fa-facebook-f text-white"></i>
-                    </a>
-                    <a href="#" className="w-10 h-10 bg-gradient-to-tr from-[#E4405F] to-[#F56040] rounded-full flex items-center justify-center hover:scale-110 transition-transform">
+                    </button>
+                    <button onClick={() => window.open('https://instagram.com', '_blank')} className="w-10 h-10 bg-gradient-to-tr from-[#E4405F] to-[#F56040] rounded-full flex items-center justify-center hover:scale-110 transition-transform">
                       <i className="fab fa-instagram text-white"></i>
-                    </a>
-                    <a href="#" className="w-10 h-10 bg-[#1DA1F2] rounded-full flex items-center justify-center hover:scale-110 transition-transform">
+                    </button>
+                    <button onClick={() => window.open('https://twitter.com', '_blank')} className="w-10 h-10 bg-[#1DA1F2] rounded-full flex items-center justify-center hover:scale-110 transition-transform">
                       <i className="fab fa-twitter text-white"></i>
-                    </a>
-                    <a href="#" className="w-10 h-10 bg-[#0077B5] rounded-full flex items-center justify-center hover:scale-110 transition-transform">
+                    </button>
+                    <button onClick={() => window.open('https://linkedin.com', '_blank')} className="w-10 h-10 bg-[#0077B5] rounded-full flex items-center justify-center hover:scale-110 transition-transform">
                       <i className="fab fa-linkedin-in text-white"></i>
-                    </a>
-                    <a href="#" className="w-10 h-10 bg-[#FF0000] rounded-full flex items-center justify-center hover:scale-110 transition-transform">
+                    </button>
+                    <button onClick={() => window.open('https://youtube.com', '_blank')} className="w-10 h-10 bg-[#FF0000] rounded-full flex items-center justify-center hover:scale-110 transition-transform">
                       <i className="fab fa-youtube text-white"></i>
-                    </a>
+                    </button>
                   </div>
                 </div>
                 
@@ -491,6 +459,8 @@ export default function AboutPage() {
           </div>
         </section>
 
+        {/* Rest of your sections (Qualifications, Memberships, Awards, Testimonials, CTA, Video Modal) remain same */}
+        
         {/* Qualifications Section */}
         <section className="py-20 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -712,7 +682,7 @@ export default function AboutPage() {
                 <iframe
                   width="100%"
                   height="100%"
-                  src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
+                  src="/images/vid.mp4"
                   title="Doctor Introduction"
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
